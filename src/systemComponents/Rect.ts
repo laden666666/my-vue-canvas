@@ -1,47 +1,29 @@
 import MyCanvasComponent from '../MyCanvasComponent';
-import { Component} from 'vue-property-decorator';
+import { Component, Prop, Mixins } from 'vue-property-decorator';
 import {
-    Props,
-    CommonType,
-    commonProps,
-    FillType,
-    fillProps,
-    StrokeType,
-    strokepropsResponsive
+    CommonProps,
+    FillProps,
+    StrokeProps,
 } from '../props'
 
-type ComponentType = {
-    x: number
-    y: number
-    width: number
-    height: number
-}
-const componentProps: Props<ComponentType> = {
-    props: {
-        x: Number,
-        y: Number,
-        width: Number,
-        height: Number,
-    }
-}
-
 @Component({
-    mixins: [commonProps, fillProps, strokepropsResponsive, componentProps],
-    extends: MyCanvasComponent,
     name: 'MyCanvasRect'
 })
-export default class MyCanvasRect extends MyCanvasComponent<CommonType & FillType & StrokeType & ComponentType>{
+export default class MyCanvasRect extends Mixins(MyCanvasComponent, CommonProps, FillProps, StrokeProps){
 
-    propsResponsive = [commonProps, fillProps, strokepropsResponsive, componentProps]
+    @Prop([Number, String]) x: number | string
+    @Prop([Number, String]) y: number | string
+    @Prop([Number, String]) width: number | string
+    @Prop([Number, String]) height: number | string
 
     
     draw(ctx: CanvasRenderingContext2D){
-        let props = this.myProps
+        let props = this
 
         ctx.save()
         ctx.beginPath()
         
-        ctx.rect(props.x, props.y, props.width, props.height)
+        ctx.rect(Number(props.x), Number(props.y), Number(props.width), Number(props.height))
         props.drawFill(ctx)
         props.drawStroke(ctx)
 
@@ -50,13 +32,18 @@ export default class MyCanvasRect extends MyCanvasComponent<CommonType & FillTyp
     }
 
     isPointinPath(x, y, ctx: CanvasRenderingContext2D){
-        let {myProps} = this
+        let myProps = this
 
         ctx.beginPath()
-        ctx.rect(myProps.x, myProps.y, myProps.width, myProps.height)
+        ctx.rect(Number(myProps.x), Number(myProps.y), Number(myProps.width), Number(myProps.height))
         let result = ctx.isPointInPath(x, y)
         ctx.closePath()
 
         return result ? [this] : []
+    }
+
+    bounds(): [number, number, number, number]{
+        return [Number(this.x), Number(this.y), 
+            Number(this.x) + Number(this.width), Number(this.y) + Number(this.height)]
     }
 }

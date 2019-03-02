@@ -3,6 +3,7 @@ import Rect from './systemComponents/Rect'
 import Circle from './systemComponents/Circle'
 import Line from './systemComponents/Line'
 import Text from './systemComponents/Text'
+import Path from './systemComponents/Path'
 import {VueConstructor} from 'vue'
 
 declare function require(name: string): any
@@ -14,6 +15,7 @@ export default {
         vue.component('MCGroup', Group)
         vue.component('MCLine', Line)
         vue.component('MCText', Text)
+        vue.component('MCPath', Path)
         vue.component('MyCanvas', require('./MyCanvas.vue').default)
     }
 }

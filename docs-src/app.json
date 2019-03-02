@@ -1,0 +1,22 @@
+{
+    "name": "my-vue-canvas",
+    "background": "BackgroundColor",
+    "logo": "./static/icon.svg",
+    "subhead": "请输入库的副标题",
+    "describe": "请输入库的描述",
+    "link": [{
+        "title": "文档",
+        "path": "/",
+        "primary": true
+    }, {
+        "title": "源码",
+        "path": "https://www.github.com/laden666666/my-vue-canvas"
+    }],
+    "menu": [{
+        "title": "主页",
+        "path": "#/"
+    }, {
+        "title": "使用",
+        "path": "#/Usage"
+    }]
+}

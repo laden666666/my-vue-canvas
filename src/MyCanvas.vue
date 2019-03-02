@@ -16,7 +16,7 @@
     </canvas>
 </template>
 <script>
-import MyCanvasControl from '../myCanvas/MyCanvasControl'
+import MyCanvasControl from './MyCanvasControl'
 import CTXGetTransform from './CTXGetTransform'
 export default {
     props: {

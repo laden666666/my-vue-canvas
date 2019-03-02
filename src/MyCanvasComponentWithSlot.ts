@@ -10,7 +10,7 @@ import { VNode } from 'vue';
  * @template T 
  */
 @Component
-export default class MyCanvasComponentWithSlot<T> extends MyCanvasComponent<T>{
+export default class MyCanvasComponentWithSlot extends MyCanvasComponent{
     render(): VNode{
         return this.$createElement('object', {staticStyle:{"display": "none"}},[this.$slots.default])
         // return this.$createElement('div', {staticStyle:{"display": "none"}},[this.$slots.default])

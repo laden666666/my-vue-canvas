@@ -1,45 +1,28 @@
 import MyCanvasComponent from '../MyCanvasComponent';
-import { Component} from 'vue-property-decorator';
+import { Component, Prop, Mixins} from 'vue-property-decorator';
 import {
-    Props,
-    CommonType,
-    commonProps,
-    StrokeType,
-    strokepropsResponsive
+    CommonProps,
+    StrokeProps,
 } from '../props'
 
-type ComponentType = {
-    x1: number
-    y1: number
-    x2: number
-    y2: number
-}
-const componentProps: Props<ComponentType> = {
-    props: {
-        x1: Number,
-        y1: Number,
-        x2: Number,
-        y2: Number,
-    }
-}
-
 @Component({
-    mixins: [commonProps, strokepropsResponsive, componentProps],
-    extends: MyCanvasComponent,
     name: 'MyCanvasLine'
 })
-export default class MyCanvasRect extends MyCanvasComponent<CommonType & StrokeType & ComponentType>{
+export default class MyCanvasRect extends Mixins(MyCanvasComponent, CommonProps, StrokeProps) {
 
-    propsResponsive = [commonProps, strokepropsResponsive, componentProps]
+    @Prop([Number, String]) x1: number | string
+    @Prop([Number, String]) y1: number | string
+    @Prop([Number, String]) x2: number | string
+    @Prop([Number, String]) y2: number | string
 
     
     draw(ctx: CanvasRenderingContext2D){
-        let props = this.myProps
+        let props = this
 
         ctx.save()
         ctx.beginPath()
-        ctx.moveTo(props.x1, props.y1)
-        ctx.lineTo(props.x2, props.y2)
+        ctx.moveTo(Number(props.x1), Number(props.y1))
+        ctx.lineTo(Number(props.x2), Number(props.y2))
         props.drawStroke(ctx)
 
         ctx.closePath()
@@ -47,12 +30,12 @@ export default class MyCanvasRect extends MyCanvasComponent<CommonType & StrokeT
     }
 
     isPointinPath(x, y, ctx: CanvasRenderingContext2D){
-        let {myProps} = this
+        let myProps = this
 
         ctx.beginPath()
-        ctx.moveTo(myProps.x1, myProps.y1)
-        ctx.lineTo(myProps.x2, myProps.y2)
-        ctx.lineWidth = myProps.strokeWidth
+        ctx.moveTo(Number(myProps.x1), Number(myProps.y1))
+        ctx.lineTo(Number(myProps.x2), Number(myProps.y2))
+        ctx.lineWidth = Number(myProps.strokeWidth)
         let result = ctx.isPointInStroke(x, y)
         ctx.closePath()
 

@@ -9,6 +9,8 @@
     "dev": "webpack --config ./build/webpack.base.conf.js --progress --hide-modules --watch",
     "build": "webpack --config ./build/webpack.prod.conf.js --progress --hide-modules",
     "doc": "docjsx c md -p api ./doc-jsx/README.jsx ./",
+    "docinit": "mydoc init",
+    "docdev": "mydoc dev",
     "master": "git checkout master && git merge develop && git push origin master && git checkout develop && git push origin develop"
   },
   "devDependencies": {
@@ -28,6 +30,7 @@
     "css-loader": "^0.28.0",
     "extract-text-webpack-plugin": "^3.0.0",
     "friendly-errors-webpack-plugin": "^1.6.1",
+    "gl-matrix": "^3.0.0",
     "karma": "^2.0.2",
     "karma-babel-preprocessor": "^7.0.0",
     "karma-chai": "^0.1.0",
@@ -41,6 +44,7 @@
     "mocha": "^5.2.0",
     "my-doc-jsx": "^0.4.2",
     "my-doc-jsx-plugin-api": "^0.1.1",
+    "my-vue-doc": "0.0.3",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "postcss-import": "^11.1.0",
     "postcss-loader": "^2.1.6",
@@ -50,6 +54,7 @@
     "url-loader": "^0.5.8",
     "vue-class-component": "^6.3.2",
     "vue-loader": "^13.7.3",
+    "vue-property-decorator": "^7.3.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.12.0",
@@ -61,6 +66,7 @@
     "webpack-parallel-uglify-plugin": "^1.1.0"
   },
   "dependencies": {
+    "svg-path-to-canvas": "^1.11.1",
     "vue": "^2.5.21"
   },
   "peerDependencies": {

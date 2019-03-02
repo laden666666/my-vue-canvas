@@ -2,8 +2,8 @@
  * 这是一个对还没有实现getTransform浏览器做一个getTransform兼容。用于获得transform。
  */
 declare function require<T>(name: string): T
-var mat2d = require<any>('gl-matrix/src/gl-matrix/mat2d');
-var vec2 = require<any>('gl-matrix/src/gl-matrix/vec2');
+var mat2d = require<any>('gl-matrix/esm/mat2d');
+var vec2 = require<any>('gl-matrix/esm/vec2');
 
 export default function monkeyPatchCtxToAddGetTransform(ctx) {
 

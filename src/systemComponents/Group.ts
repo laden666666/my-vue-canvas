@@ -1,36 +1,28 @@
 import MyCanvasComponentWithSlot from '../MyCanvasComponentWithSlot';
-import { Component} from 'vue-property-decorator';
+import { Component, Prop, Mixins} from 'vue-property-decorator';
 import { 
-    Props,
-    CommonType,
-    commonProps,
+    CommonProps,
+    TransformProps
 } from '../props'
 
-type ComponentType = {
-    x: number
-    y: number
-}
-const componentResponsive: Props<ComponentType> = {
-    props: {
-        x: Number,
-        y: Number,
-    }
-}
-
 @Component({
-    mixins: [commonProps, componentResponsive],
     name: 'MyCanvasGroup'
 })
-export default class MyCanvasRect extends MyCanvasComponentWithSlot<CommonType & ComponentType>{
+export default class MyCanvasRect extends Mixins(MyCanvasComponentWithSlot, CommonProps, TransformProps){
 
-    propsResponsive = [commonProps, componentResponsive]
+    @Prop([Number, String]) x: number | string
+    @Prop([Number, String]) y: number | string
 
     draw(ctx: CanvasRenderingContext2D){
-        let props = this.myProps
+        let props = this
 
         ctx.save()
         // 位移变换
-        ctx.transform(1, 0, 0, 1, props.x || 0, props.y || 0)
+        if(props.x != null || props.y != null){
+            ctx.translate(props.x ? Number(props.x) : 0, props.y ? Number(props.y) : 0)
+        }
+
+        this.callTransform(ctx)
 
         // 递归渲染子控件
         this.superDraw(ctx)
@@ -38,9 +30,12 @@ export default class MyCanvasRect extends MyCanvasComponentWithSlot<CommonType &
     }
     
     isPointinPath(x, y, ctx: CanvasRenderingContext2D){
-        let {myProps} = this
+        let props = this
         ctx.save()
-        ctx.translate(myProps.x || 0, myProps.y || 0)
+        if(props.x != null || props.y != null){
+            ctx.translate(props.x ? Number(props.x) : 0, props.y ? Number(props.y) : 0)
+        }
+        this.callTransform(ctx)
         let arr = this.superIsPointinPath(x, y, ctx)
         ctx.restore()
         return arr

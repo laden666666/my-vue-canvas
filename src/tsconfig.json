@@ -3,6 +3,7 @@
         "module": "commonjs",
         "allowJs": false,
         "declaration": true,
+        "experimentalDecorators": true,
         "target": "es2017"
     }
 }
