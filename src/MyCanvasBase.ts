@@ -26,6 +26,15 @@ export default class MyCanvasBase extends Vue {
      * @memberOf MyCanvasBase
      */
     @Prop([String, Number]) public zIndex: number | string
+
+    /**
+     * 控件渲染的优先级
+     * @type {number}
+     * @memberOf MyCanvasBase
+     */
+    public get zIndexValue(): number{
+        return Number(this.zIndex || 0)
+    }
     
     /**
      * 判断点是否在图形的封闭集合中，仿convasContext2D.isPointinPath
@@ -52,7 +61,7 @@ export default class MyCanvasBase extends Vue {
      */
     public superIsPointinPath(x: number, y: number, ctx: CanvasRenderingContext2D): MyCanvasBase[]{
         return Array.from(this.$children).filter((item: MyCanvasBase)=> item.type && item.type.startsWith('MyCanvas:'))
-            .sort((item1: MyCanvasBase, item2: MyCanvasBase)=>(item1.zIndex ? Number(item1.zIndex) : 0) - (item2.zIndex ? Number(item2.zIndex) : 0))
+            .sort((item1: MyCanvasBase, item2: MyCanvasBase)=>item1.zIndexValue - item2.zIndexValue)
             .reduce((arr, item: MyCanvasBase)=>{
                 if(!item){
                     return arr
@@ -84,7 +93,7 @@ export default class MyCanvasBase extends Vue {
     public superDraw(cxt: CanvasRenderingContext2D){
         this.currentTransform = cxt.getTransform() as any as number[]
         Array.from(this.$children).filter((item: MyCanvasBase)=> item.type && item.type.startsWith('MyCanvas:'))
-            .sort((item1: MyCanvasBase, item2: MyCanvasBase)=>(item1.zIndex ? Number(item1.zIndex) : 0) - (item2.zIndex ? Number(item2.zIndex) : 0))
+            .sort((item1: MyCanvasBase, item2: MyCanvasBase)=>item1.zIndexValue - item2.zIndexValue)
             .forEach((item: MyCanvasBase)=>{
                 if(!item){
                     return

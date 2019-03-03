@@ -21,6 +21,12 @@ export default class MyCanvasBase extends Vue {
      */
     zIndex: number | string;
     /**
+     * 控件渲染的优先级
+     * @type {number}
+     * @memberOf MyCanvasBase
+     */
+    readonly zIndexValue: number;
+    /**
      * 判断点是否在图形的封闭集合中，仿convasContext2D.isPointinPath
      * @param {number} x                            点的x坐标（相对canvas左上角）
      * @param {number} y                            点的y坐标（相对canvas左上角）

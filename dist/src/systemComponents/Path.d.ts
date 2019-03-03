@@ -1,6 +1,6 @@
 import MyCanvasComponent from '../MyCanvasComponent';
-import { CommonProps, FillProps, StrokeProps, Transform2Props } from '../props';
-declare const MyCanvasRect_base: import("vue-class-component/lib/declarations").VueClass<MyCanvasComponent & CommonProps & FillProps & StrokeProps & Transform2Props>;
+import { FillProps, StrokeProps, Transform2Props } from '../props';
+declare const MyCanvasRect_base: import("vue-class-component/lib/declarations").VueClass<MyCanvasComponent & FillProps & StrokeProps & Transform2Props>;
 export default class MyCanvasRect extends MyCanvasRect_base {
     d: string;
     _cachePath: string;

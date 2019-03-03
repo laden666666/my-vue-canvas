@@ -1,14 +1,13 @@
 import MyCanvasComponent from '../MyCanvasComponent';
 import { Component, Prop, Mixins} from 'vue-property-decorator';
 import {
-    CommonProps,
     StrokeProps,
 } from '../props'
 
 @Component({
     name: 'MyCanvasLine'
 })
-export default class MyCanvasRect extends Mixins(MyCanvasComponent, CommonProps, StrokeProps) {
+export default class MyCanvasRect extends Mixins(MyCanvasComponent, StrokeProps) {
 
     @Prop([Number, String]) x1: number | string
     @Prop([Number, String]) y1: number | string

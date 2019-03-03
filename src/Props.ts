@@ -1,12 +1,6 @@
 import Vue from 'vue'
 import { Component, Prop, Mixins } from 'vue-property-decorator';
 
-// zIndex属性
-@Component
-export class CommonProps extends Vue {
-    @Prop([Number, String]) public zIndex: number | string
-}
-
 // fill相关属性
 @Component
 export class FillProps extends Vue {
@@ -29,21 +23,22 @@ export class FillProps extends Vue {
 @Component
 export class StrokeProps extends Vue {
     @Prop([String, Number]) public strokeWidth: number | string
+    public get strokeWidthValue(){
+        return this.strokeWidth != null ? Number(this.strokeWidth) : 1
+    }
+
     @Prop() public stroke: string
+
     drawStroke(ctx: CanvasRenderingContext2D){
         if(this.stroke){
-            if(this.strokeWidth){
-                ctx.lineWidth = Number(this.strokeWidth)
-            }
+            ctx.lineWidth = this.strokeWidthValue
             ctx.strokeStyle = this.stroke
             ctx.stroke()
         }
     }
     strokeText(ctx: CanvasRenderingContext2D, x: number, y: number, text: string){
         if(this.stroke){
-            if(this.strokeWidth){
-                ctx.lineWidth = Number(this.strokeWidth)
-            }
+            ctx.lineWidth = this.strokeWidthValue
             ctx.strokeStyle = this.stroke
             ctx.strokeText(text, x, y)
         }
@@ -87,6 +82,7 @@ export  class Transform2Props extends Vue {
         let anchor = Array.isArray(this.anchor) ? this.anchor : 
             [Number(this.anchor || 0.5), Number(this.anchor || 0.5)]
 
+        ctx.save()
         ctx.translate(bounds[0] + (bounds[2] - bounds[0]) * anchor[0], 
             bounds[1] + (bounds[3] - bounds[1]) * anchor[1])
     
@@ -96,22 +92,14 @@ export  class Transform2Props extends Vue {
         let scale = Array.isArray(this.scale) ? this.scale : [Number(this.scale || 1), Number(this.scale || 1)]
         ctx.scale(scale[0], scale[1])
 
-        ctx.translate((bounds[0] + (bounds[2] - bounds[0]) * anchor[0]) * -2, 
-            (bounds[1] + (bounds[3] - bounds[1]) * anchor[1]) * -2)
+        ctx.translate((bounds[0] + (bounds[2] - bounds[0]) * anchor[0]) * -1 * (1 + 1 / scale[0]), 
+            (bounds[1] + (bounds[3] - bounds[1]) * anchor[1]) * -1 * (1 + 1 / scale[1]))
 
         if(this.y || this.x){
-            ctx.translate(Number(this.x || 0), Number(this.y || 0))
-                
+            ctx.translate(Number(this.x || 0) / scale[0], Number(this.y || 0) / scale[1])
         }
     }
-    // callTransformEnd(ctx: CanvasRenderingContext2D){
-    //     if(this.scale || this.rotate){
-    //         let bounds: [number, number, number, number] = (this as any).bounds()
-    //         let anchor = Array.isArray(this.anchor) ? this.anchor : 
-    //             [Number(this.anchor || 0.5), Number(this.anchor || 0.5)]
-
-    //         ctx.translate((bounds[2] - bounds[0]) * anchor[0],
-    //             (bounds[3] - bounds[1]) * anchor[1])
-    //     }
-    // }
+    callTransformEnd(ctx: CanvasRenderingContext2D){
+        ctx.restore()
+    }
 }

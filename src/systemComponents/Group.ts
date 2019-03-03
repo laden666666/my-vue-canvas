@@ -1,14 +1,13 @@
 import MyCanvasComponentWithSlot from '../MyCanvasComponentWithSlot';
 import { Component, Prop, Mixins} from 'vue-property-decorator';
 import { 
-    CommonProps,
     TransformProps
 } from '../props'
 
 @Component({
     name: 'MyCanvasGroup'
 })
-export default class MyCanvasRect extends Mixins(MyCanvasComponentWithSlot, CommonProps, TransformProps){
+export default class MyCanvasRect extends Mixins(MyCanvasComponentWithSlot, TransformProps){
 
     @Prop([Number, String]) x: number | string
     @Prop([Number, String]) y: number | string

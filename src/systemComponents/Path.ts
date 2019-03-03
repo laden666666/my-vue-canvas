@@ -1,7 +1,6 @@
 import MyCanvasComponent from '../MyCanvasComponent';
 import { Component, Prop, Mixins } from 'vue-property-decorator';
 import {
-    CommonProps,
     FillProps,
     StrokeProps,
     Transform2Props
@@ -11,7 +10,7 @@ var SvgPath = require('svg-path-to-canvas').default
 @Component({
     name: 'MyCanvasRect'
 })
-export default class MyCanvasRect extends Mixins(MyCanvasComponent, CommonProps, FillProps, StrokeProps, Transform2Props){
+export default class MyCanvasRect extends Mixins(MyCanvasComponent, FillProps, StrokeProps, Transform2Props){
 
     @Prop(String) d: string
 
@@ -30,7 +29,7 @@ export default class MyCanvasRect extends Mixins(MyCanvasComponent, CommonProps,
 
         this.callTransformBegin(ctx)
         this._cacheSvgPath.to(ctx)
-        // this.callTransformEnd(ctx)
+        this.callTransformEnd(ctx)
 
         this.drawFill(ctx)
         this.drawStroke(ctx)
@@ -46,7 +45,7 @@ export default class MyCanvasRect extends Mixins(MyCanvasComponent, CommonProps,
 
         this.callTransformBegin(ctx)
         this._cacheSvgPath.to(ctx)
-        // this.callTransformEnd(ctx)
+        this.callTransformEnd(ctx)
 
         ctx.lineWidth = Number(myProps.strokeWidth)
         let result = ctx.isPointInStroke(x, y)

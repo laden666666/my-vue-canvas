@@ -759,10 +759,6 @@ exports.default = MyCanvasComponent;
 "use strict";
 
 
-var _createClass2 = __webpack_require__(11);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
 var _getPrototypeOf = __webpack_require__(3);
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -770,6 +766,10 @@ var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
 var _classCallCheck2 = __webpack_require__(4);
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(11);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _possibleConstructorReturn2 = __webpack_require__(5);
 
@@ -804,23 +804,9 @@ var __decorate = undefined && undefined.__decorate || function (decorators, targ
 Object.defineProperty(exports, "__esModule", { value: true });
 var vue_1 = __webpack_require__(44);
 var vue_property_decorator_1 = __webpack_require__(9);
-// zIndex属性
-var CommonProps = function (_vue_1$default) {
-    (0, _inherits3.default)(CommonProps, _vue_1$default);
-
-    function CommonProps() {
-        (0, _classCallCheck3.default)(this, CommonProps);
-        return (0, _possibleConstructorReturn3.default)(this, (CommonProps.__proto__ || (0, _getPrototypeOf2.default)(CommonProps)).apply(this, arguments));
-    }
-
-    return CommonProps;
-}(vue_1.default);
-__decorate([vue_property_decorator_1.Prop([Number, String])], CommonProps.prototype, "zIndex", void 0);
-CommonProps = __decorate([vue_property_decorator_1.Component], CommonProps);
-exports.CommonProps = CommonProps;
 // fill相关属性
-var FillProps = function (_vue_1$default2) {
-    (0, _inherits3.default)(FillProps, _vue_1$default2);
+var FillProps = function (_vue_1$default) {
+    (0, _inherits3.default)(FillProps, _vue_1$default);
 
     function FillProps() {
         (0, _classCallCheck3.default)(this, FillProps);
@@ -850,8 +836,8 @@ __decorate([vue_property_decorator_1.Prop()], FillProps.prototype, "fill", void 
 FillProps = __decorate([vue_property_decorator_1.Component], FillProps);
 exports.FillProps = FillProps;
 // Stroke相关属性
-var StrokeProps = function (_vue_1$default3) {
-    (0, _inherits3.default)(StrokeProps, _vue_1$default3);
+var StrokeProps = function (_vue_1$default2) {
+    (0, _inherits3.default)(StrokeProps, _vue_1$default2);
 
     function StrokeProps() {
         (0, _classCallCheck3.default)(this, StrokeProps);
@@ -862,9 +848,7 @@ var StrokeProps = function (_vue_1$default3) {
         key: "drawStroke",
         value: function drawStroke(ctx) {
             if (this.stroke) {
-                if (this.strokeWidth) {
-                    ctx.lineWidth = Number(this.strokeWidth);
-                }
+                ctx.lineWidth = this.strokeWidthValue;
                 ctx.strokeStyle = this.stroke;
                 ctx.stroke();
             }
@@ -873,12 +857,15 @@ var StrokeProps = function (_vue_1$default3) {
         key: "strokeText",
         value: function strokeText(ctx, x, y, text) {
             if (this.stroke) {
-                if (this.strokeWidth) {
-                    ctx.lineWidth = Number(this.strokeWidth);
-                }
+                ctx.lineWidth = this.strokeWidthValue;
                 ctx.strokeStyle = this.stroke;
                 ctx.strokeText(text, x, y);
             }
+        }
+    }, {
+        key: "strokeWidthValue",
+        get: function get() {
+            return this.strokeWidth != null ? Number(this.strokeWidth) : 1;
         }
     }]);
     return StrokeProps;
@@ -887,8 +874,8 @@ __decorate([vue_property_decorator_1.Prop([String, Number])], StrokeProps.protot
 __decorate([vue_property_decorator_1.Prop()], StrokeProps.prototype, "stroke", void 0);
 StrokeProps = __decorate([vue_property_decorator_1.Component], StrokeProps);
 exports.StrokeProps = StrokeProps;
-var TransformProps = function (_vue_1$default4) {
-    (0, _inherits3.default)(TransformProps, _vue_1$default4);
+var TransformProps = function (_vue_1$default3) {
+    (0, _inherits3.default)(TransformProps, _vue_1$default3);
 
     function TransformProps() {
         (0, _classCallCheck3.default)(this, TransformProps);
@@ -917,8 +904,8 @@ __decorate([vue_property_decorator_1.Prop()], TransformProps.prototype, "transfo
 TransformProps = __decorate([vue_property_decorator_1.Component], TransformProps);
 exports.TransformProps = TransformProps;
 // Transform相关属性
-var Transform2Props = function (_vue_1$default5) {
-    (0, _inherits3.default)(Transform2Props, _vue_1$default5);
+var Transform2Props = function (_vue_1$default4) {
+    (0, _inherits3.default)(Transform2Props, _vue_1$default4);
 
     function Transform2Props() {
         (0, _classCallCheck3.default)(this, Transform2Props);
@@ -930,15 +917,21 @@ var Transform2Props = function (_vue_1$default5) {
         value: function callTransformBegin(ctx) {
             var bounds = this.bounds();
             var anchor = Array.isArray(this.anchor) ? this.anchor : [Number(this.anchor || 0.5), Number(this.anchor || 0.5)];
+            ctx.save();
             ctx.translate(bounds[0] + (bounds[2] - bounds[0]) * anchor[0], bounds[1] + (bounds[3] - bounds[1]) * anchor[1]);
             var rotate = Number(this.rotate || 0);
             ctx.rotate(rotate);
             var scale = Array.isArray(this.scale) ? this.scale : [Number(this.scale || 1), Number(this.scale || 1)];
             ctx.scale(scale[0], scale[1]);
-            ctx.translate((bounds[0] + (bounds[2] - bounds[0]) * anchor[0]) * -2, (bounds[1] + (bounds[3] - bounds[1]) * anchor[1]) * -2);
-            // if(this.y || this.x){
-            ctx.translate(Number(this.x || 0), Number(this.y || 0));
-            // }
+            ctx.translate((bounds[0] + (bounds[2] - bounds[0]) * anchor[0]) * -1 * (1 + 1 / scale[0]), (bounds[1] + (bounds[3] - bounds[1]) * anchor[1]) * -1 * (1 + 1 / scale[1]));
+            if (this.y || this.x) {
+                ctx.translate(Number(this.x || 0) / scale[0], Number(this.y || 0) / scale[1]);
+            }
+        }
+    }, {
+        key: "callTransformEnd",
+        value: function callTransformEnd(ctx) {
+            ctx.restore();
         }
     }]);
     return Transform2Props;
@@ -1520,18 +1513,24 @@ var MyCanvasBase = function (_vue_property_decorat) {
         return _this;
     }
     /**
-     * 判断点是否在图形的封闭集合中，仿convasContext2D.isPointinPath
-     * @param {number} x                            点的x坐标（相对canvas左上角）
-     * @param {number} y                            点的y坐标（相对canvas左上角）
-     * @param {CanvasRenderingContext2D} ctx        convasContext2D
-     * @returns {MyCanvasBase[]}                    包括当前图形（控件）和其自己子图形（控件）（包括子节点的子节点）所有符合图形（控件）的集合。需要确保是按照渲染顺序排序，最先渲染的图形（控件）放到最前面
-     *
+     * 控件渲染的优先级
+     * @type {number}
      * @memberOf MyCanvasBase
      */
 
 
     (0, _createClass3.default)(MyCanvasBase, [{
         key: "isPointinPath",
+
+        /**
+         * 判断点是否在图形的封闭集合中，仿convasContext2D.isPointinPath
+         * @param {number} x                            点的x坐标（相对canvas左上角）
+         * @param {number} y                            点的y坐标（相对canvas左上角）
+         * @param {CanvasRenderingContext2D} ctx        convasContext2D
+         * @returns {MyCanvasBase[]}                    包括当前图形（控件）和其自己子图形（控件）（包括子节点的子节点）所有符合图形（控件）的集合。需要确保是按照渲染顺序排序，最先渲染的图形（控件）放到最前面
+         *
+         * @memberOf MyCanvasBase
+         */
         value: function isPointinPath(x, y, ctx) {
             return this.superIsPointinPath(x, y, ctx);
         }
@@ -1552,7 +1551,7 @@ var MyCanvasBase = function (_vue_property_decorat) {
             return (0, _from2.default)(this.$children).filter(function (item) {
                 return item.type && item.type.startsWith('MyCanvas:');
             }).sort(function (item1, item2) {
-                return (item1.zIndex ? Number(item1.zIndex) : 0) - (item2.zIndex ? Number(item2.zIndex) : 0);
+                return item1.zIndexValue - item2.zIndexValue;
             }).reduce(function (arr, item) {
                 if (!item) {
                     return arr;
@@ -1588,7 +1587,7 @@ var MyCanvasBase = function (_vue_property_decorat) {
             (0, _from2.default)(this.$children).filter(function (item) {
                 return item.type && item.type.startsWith('MyCanvas:');
             }).sort(function (item1, item2) {
-                return (item1.zIndex ? Number(item1.zIndex) : 0) - (item2.zIndex ? Number(item2.zIndex) : 0);
+                return item1.zIndexValue - item2.zIndexValue;
             }).forEach(function (item) {
                 if (!item) {
                     return;
@@ -1620,6 +1619,11 @@ var MyCanvasBase = function (_vue_property_decorat) {
                 x: a * x + c * y + e,
                 y: b * x + d * y + f
             };
+        }
+    }, {
+        key: "zIndexValue",
+        get: function get() {
+            return Number(this.zIndex || 0);
         }
     }]);
     return MyCanvasBase;
@@ -2093,7 +2097,7 @@ var MyCanvasRect = function (_vue_property_decorat) {
         }
     }]);
     return MyCanvasRect;
-}(vue_property_decorator_1.Mixins(MyCanvasComponentWithSlot_1.default, props_1.CommonProps, props_1.TransformProps));
+}(vue_property_decorator_1.Mixins(MyCanvasComponentWithSlot_1.default, props_1.TransformProps));
 __decorate([vue_property_decorator_1.Prop([Number, String])], MyCanvasRect.prototype, "x", void 0);
 __decorate([vue_property_decorator_1.Prop([Number, String])], MyCanvasRect.prototype, "y", void 0);
 MyCanvasRect = __decorate([vue_property_decorator_1.Component({
@@ -3505,7 +3509,7 @@ var MyCanvasRect = function (_vue_property_decorat) {
         }
     }]);
     return MyCanvasRect;
-}(vue_property_decorator_1.Mixins(MyCanvasComponent_1.default, props_1.CommonProps, props_1.FillProps, props_1.StrokeProps));
+}(vue_property_decorator_1.Mixins(MyCanvasComponent_1.default, props_1.FillProps, props_1.StrokeProps));
 __decorate([vue_property_decorator_1.Prop([Number, String])], MyCanvasRect.prototype, "x", void 0);
 __decorate([vue_property_decorator_1.Prop([Number, String])], MyCanvasRect.prototype, "y", void 0);
 __decorate([vue_property_decorator_1.Prop([Number, String])], MyCanvasRect.prototype, "width", void 0);
@@ -3606,7 +3610,7 @@ var MyCanvasRect = function (_vue_property_decorat) {
         }
     }]);
     return MyCanvasRect;
-}(vue_property_decorator_1.Mixins(MyCanvasComponent_1.default, props_1.CommonProps, props_1.FillProps, props_1.StrokeProps));
+}(vue_property_decorator_1.Mixins(MyCanvasComponent_1.default, props_1.FillProps, props_1.StrokeProps));
 __decorate([vue_property_decorator_1.Prop([Number, String])], MyCanvasRect.prototype, "cx", void 0);
 __decorate([vue_property_decorator_1.Prop([Number, String])], MyCanvasRect.prototype, "cy", void 0);
 __decorate([vue_property_decorator_1.Prop([Number, String])], MyCanvasRect.prototype, "r", void 0);
@@ -3702,7 +3706,7 @@ var MyCanvasRect = function (_vue_property_decorat) {
         }
     }]);
     return MyCanvasRect;
-}(vue_property_decorator_1.Mixins(MyCanvasComponent_1.default, props_1.CommonProps, props_1.StrokeProps));
+}(vue_property_decorator_1.Mixins(MyCanvasComponent_1.default, props_1.StrokeProps));
 __decorate([vue_property_decorator_1.Prop([Number, String])], MyCanvasRect.prototype, "x1", void 0);
 __decorate([vue_property_decorator_1.Prop([Number, String])], MyCanvasRect.prototype, "y1", void 0);
 __decorate([vue_property_decorator_1.Prop([Number, String])], MyCanvasRect.prototype, "x2", void 0);
@@ -3799,7 +3803,7 @@ var MyCanvasRect = function (_vue_property_decorat) {
         }
     }]);
     return MyCanvasRect;
-}(vue_property_decorator_1.Mixins(MyCanvasComponent_1.default, props_1.CommonProps, props_1.FillProps, props_1.StrokeProps));
+}(vue_property_decorator_1.Mixins(MyCanvasComponent_1.default, props_1.FillProps, props_1.StrokeProps));
 __decorate([vue_property_decorator_1.Prop([Number, String])], MyCanvasRect.prototype, "x", void 0);
 __decorate([vue_property_decorator_1.Prop([Number, String])], MyCanvasRect.prototype, "y", void 0);
 __decorate([vue_property_decorator_1.Prop([Number, String])], MyCanvasRect.prototype, "fontSize", void 0);
@@ -5693,7 +5697,7 @@ var MyCanvasRect = function (_vue_property_decorat) {
             ctx.beginPath();
             this.callTransformBegin(ctx);
             this._cacheSvgPath.to(ctx);
-            // this.callTransformEnd(ctx)
+            this.callTransformEnd(ctx);
             this.drawFill(ctx);
             this.drawStroke(ctx);
             ctx.closePath();
@@ -5706,7 +5710,7 @@ var MyCanvasRect = function (_vue_property_decorat) {
             ctx.beginPath();
             this.callTransformBegin(ctx);
             this._cacheSvgPath.to(ctx);
-            // this.callTransformEnd(ctx)
+            this.callTransformEnd(ctx);
             ctx.lineWidth = Number(myProps.strokeWidth);
             var result = ctx.isPointInStroke(x, y);
             ctx.closePath();
@@ -5722,7 +5726,7 @@ var MyCanvasRect = function (_vue_property_decorat) {
         }
     }]);
     return MyCanvasRect;
-}(vue_property_decorator_1.Mixins(MyCanvasComponent_1.default, props_1.CommonProps, props_1.FillProps, props_1.StrokeProps, props_1.Transform2Props));
+}(vue_property_decorator_1.Mixins(MyCanvasComponent_1.default, props_1.FillProps, props_1.StrokeProps, props_1.Transform2Props));
 __decorate([vue_property_decorator_1.Prop(String)], MyCanvasRect.prototype, "d", void 0);
 MyCanvasRect = __decorate([vue_property_decorator_1.Component({
     name: 'MyCanvasRect'

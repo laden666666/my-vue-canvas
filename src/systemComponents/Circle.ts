@@ -1,7 +1,6 @@
 import MyCanvasComponent from '../MyCanvasComponent';
 import { Component, Prop, Mixins} from 'vue-property-decorator';
 import {
-    CommonProps,
     FillProps,
     StrokeProps,
 } from '../props'
@@ -9,7 +8,7 @@ import {
 @Component({
     name: 'MyCanvasCircle'
 })
-export default class MyCanvasRect extends Mixins(MyCanvasComponent, CommonProps,FillProps, StrokeProps){
+export default class MyCanvasRect extends Mixins(MyCanvasComponent, FillProps, StrokeProps){
 
     @Prop([Number, String]) cx: number | string
     @Prop([Number, String]) cy: number | string

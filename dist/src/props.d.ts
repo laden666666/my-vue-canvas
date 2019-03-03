@@ -1,7 +1,4 @@
 import Vue from 'vue';
-export declare class CommonProps extends Vue {
-    zIndex: number | string;
-}
 export declare class FillProps extends Vue {
     fill: string;
     drawFill(ctx: CanvasRenderingContext2D): void;
@@ -9,6 +6,7 @@ export declare class FillProps extends Vue {
 }
 export declare class StrokeProps extends Vue {
     strokeWidth: number | string;
+    readonly strokeWidthValue: number;
     stroke: string;
     drawStroke(ctx: CanvasRenderingContext2D): void;
     strokeText(ctx: CanvasRenderingContext2D, x: number, y: number, text: string): void;
@@ -25,5 +23,6 @@ export declare class Transform2Props extends Vue {
     x: number | String;
     y: number | String;
     callTransformBegin(ctx: CanvasRenderingContext2D): void;
+    callTransformEnd(ctx: CanvasRenderingContext2D): void;
 }
 export {};

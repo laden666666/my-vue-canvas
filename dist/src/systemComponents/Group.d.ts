@@ -1,6 +1,6 @@
 import MyCanvasComponentWithSlot from '../MyCanvasComponentWithSlot';
-import { CommonProps, TransformProps } from '../props';
-declare const MyCanvasRect_base: import("vue-class-component/lib/declarations").VueClass<MyCanvasComponentWithSlot & CommonProps & TransformProps>;
+import { TransformProps } from '../props';
+declare const MyCanvasRect_base: import("vue-class-component/lib/declarations").VueClass<MyCanvasComponentWithSlot & TransformProps>;
 export default class MyCanvasRect extends MyCanvasRect_base {
     x: number | string;
     y: number | string;

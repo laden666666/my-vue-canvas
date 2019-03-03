@@ -1,15 +1,12 @@
 <template>
     <MyCanvas width="1500px" height="1500px">
-        <!-- <MCGroup x="-200" y="-300" :transform="[['scale', .6]]"> -->
+        <MCGroup x="-150" y="-150" :transform="[['scale', .6]]">
             <!-- shadow -->
-            <!-- <MCPath x="500" y="734" :scale="[1.3, 1.2]" :d="shadowD" fill="rgba(0,0,0, .05)"></MCPath> -->
+            <MCPath x="500" y="734" :scale="[1.3, 1.2]" :d="shadowD" fill="rgba(0,0,0, .05)"></MCPath>
             <!-- lemon -->
-            <!-- <MCPath x="500" y="600" scale="1.4" :d="d" fill="#fed330"></MCPath> -->
-            <!-- <MCGroup x="500" y="600"> -->
-                <MCPath rotate="0" :d="d" fill="#ee5599"></MCPath>
-                <MCPath :rotate="3.14 / 4" :d="d" scale="1.3" fill="#fed330"></MCPath>
+            <MCPath x="500" y="600" scale="1.4" :d="d" fill="#fed330"></MCPath>
             <!-- </MCGroup> -->
-        <!-- </MCGroup> -->
+        </MCGroup>
     </MyCanvas>
 </template>
 <script>
