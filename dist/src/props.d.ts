@@ -16,13 +16,12 @@ export declare class TransformProps extends Vue {
     transform: Array<TransformSetting>;
     callTransform(ctx: CanvasRenderingContext2D): void;
 }
-export declare class Transform2Props extends Vue {
+export declare class FigureProps extends Vue {
     anchor: number | String | [number, number];
     scale: number | String | [number, number];
     rotate: number | String;
     x: number | String;
     y: number | String;
-    callTransformBegin(ctx: CanvasRenderingContext2D): void;
-    callTransformEnd(ctx: CanvasRenderingContext2D): void;
+    figure(ctx: CanvasRenderingContext2D): void;
 }
 export {};

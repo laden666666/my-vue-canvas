@@ -69,7 +69,7 @@ export class TransformProps extends Vue {
 
 // Transform相关属性
 @Component
-export  class Transform2Props extends Vue {
+export  class FigureProps extends Vue {
     @Prop() public anchor: number | String | [number, number]
     @Prop() public scale: number | String | [number, number]
     @Prop() public rotate: number | String
@@ -77,7 +77,7 @@ export  class Transform2Props extends Vue {
     @Prop() public x: number | String
     @Prop() public y: number | String
 
-    callTransformBegin(ctx: CanvasRenderingContext2D){
+    figure(ctx: CanvasRenderingContext2D){
         let bounds: [number, number, number, number] = (this as any).bounds()
         let anchor = Array.isArray(this.anchor) ? this.anchor : 
             [Number(this.anchor || 0.5), Number(this.anchor || 0.5)]
@@ -98,8 +98,5 @@ export  class Transform2Props extends Vue {
         if(this.y || this.x){
             ctx.translate(Number(this.x || 0) / scale[0], Number(this.y || 0) / scale[1])
         }
-    }
-    callTransformEnd(ctx: CanvasRenderingContext2D){
-        ctx.restore()
     }
 }

@@ -3,16 +3,18 @@ import { Component, Prop, Mixins} from 'vue-property-decorator';
 import {
     FillProps,
     StrokeProps,
+    FigureProps
 } from '../props'
 
 @Component({
     name: 'MyCanvasCircle'
 })
-export default class MyCanvasRect extends Mixins(MyCanvasComponent, FillProps, StrokeProps){
+export default class MyCanvasRect extends Mixins(MyCanvasComponent, FillProps, StrokeProps, FigureProps){
 
-    @Prop([Number, String]) cx: number | string
-    @Prop([Number, String]) cy: number | string
     @Prop([Number, String]) r: number | string
+    get rValue(){
+        return Number(this.r)
+    }
     
     draw(ctx: CanvasRenderingContext2D){
         let props = this
@@ -20,7 +22,8 @@ export default class MyCanvasRect extends Mixins(MyCanvasComponent, FillProps, S
         ctx.save()
         ctx.beginPath()
         
-        ctx.arc(Number(props.cx), Number(props.cy), Number(props.r), 0, Math.PI * 2, false)
+        this.figure(ctx)
+        ctx.arc(0, 0, Number(props.rValue), 0, Math.PI * 2, false)
         props.drawFill(ctx)
         props.drawStroke(ctx)
 
@@ -32,7 +35,9 @@ export default class MyCanvasRect extends Mixins(MyCanvasComponent, FillProps, S
         let props = this
 
         ctx.beginPath()
-        ctx.arc(Number(props.cx), Number(props.cy), Number(props.r), 0, Math.PI * 2, false)
+        
+        this.figure(ctx)
+        ctx.arc(0, 0, Number(props.rValue), 0, Math.PI * 2, false)
         let result = ctx.isPointInPath(x, y)
         ctx.closePath()
 
@@ -40,8 +45,6 @@ export default class MyCanvasRect extends Mixins(MyCanvasComponent, FillProps, S
     }
 
     bounds(): [number, number, number, number]{
-        let props = this
-        return [Number(props.cx) - Number(props.r), Number(props.cy) - Number(props.r), 
-            Number(props.cx) + Number(props.r), Number(props.cy) + Number(props.r)]
+        return [-this.rValue, -this.rValue, this.rValue, this.rValue]
     }
 }

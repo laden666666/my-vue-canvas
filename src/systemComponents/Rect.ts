@@ -3,26 +3,32 @@ import { Component, Prop, Mixins } from 'vue-property-decorator';
 import {
     FillProps,
     StrokeProps,
+    FigureProps
 } from '../props'
 
 @Component({
     name: 'MyCanvasRect'
 })
-export default class MyCanvasRect extends Mixins(MyCanvasComponent, FillProps, StrokeProps){
+export default class MyCanvasRect extends Mixins(MyCanvasComponent, FillProps, StrokeProps, FigureProps){
 
-    @Prop([Number, String]) x: number | string
-    @Prop([Number, String]) y: number | string
     @Prop([Number, String]) width: number | string
     @Prop([Number, String]) height: number | string
 
-    
+    get widthValue(): number{
+        return Number(this.width)
+    }
+    get heightValue(): number{
+        return Number(this.height)
+    }
+
     draw(ctx: CanvasRenderingContext2D){
         let props = this
 
         ctx.save()
         ctx.beginPath()
-        
-        ctx.rect(Number(props.x), Number(props.y), Number(props.width), Number(props.height))
+
+        props.figure(ctx)
+        ctx.rect(-this.widthValue / 2, -this.heightValue / 2, this.widthValue, this.heightValue)
         props.drawFill(ctx)
         props.drawStroke(ctx)
 
@@ -34,7 +40,9 @@ export default class MyCanvasRect extends Mixins(MyCanvasComponent, FillProps, S
         let myProps = this
 
         ctx.beginPath()
-        ctx.rect(Number(myProps.x), Number(myProps.y), Number(myProps.width), Number(myProps.height))
+
+        myProps.figure(ctx)
+        ctx.rect(-this.widthValue / 2, -this.heightValue / 2, this.widthValue, this.heightValue)
         let result = ctx.isPointInPath(x, y)
         ctx.closePath()
 
@@ -42,7 +50,6 @@ export default class MyCanvasRect extends Mixins(MyCanvasComponent, FillProps, S
     }
 
     bounds(): [number, number, number, number]{
-        return [Number(this.x), Number(this.y), 
-            Number(this.x) + Number(this.width), Number(this.y) + Number(this.height)]
+        return [-this.widthValue / 2, -this.heightValue / 2, this.widthValue / 2, this.heightValue / 2]
     }
 }
